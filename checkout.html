@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Checkout — Chicken GRAY + SNACKS</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/auth.css?v=20260827-1">
+  <link rel="stylesheet" href="css/location.css">
+  <link rel="stylesheet" href="css/checkout.css?v=20260827-1">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="android-mobile-ui-fixes.css?v=20260827-menu-fix-1">
+</head>
+<body class="checkout-page">
+  <header class="checkout-header">
+    <a class="checkout-brand" href="index.html"><span class="checkout-brand-mark">CG</span><span>SECURE CHECKOUT</span></a>
+    <a class="checkout-help" href="dashboard.html">My Account</a>
+  </header>
+
+  <main class="checkout-main">
+    <div>
+      <section class="checkout-step checkout-payment-step" id="paymentStep" hidden>
+        <div class="checkout-step-head">
+          <div class="checkout-step-icon">₹</div>
+          <div><h2>Choose payment method</h2><p>Select one of the available payment options.</p></div>
+        </div>
+
+        <div class="payment-options" id="paymentOptions">
+          <button type="button" class="payment-option" data-payment="cod" aria-pressed="false">
+            <span class="payment-option-icon">₹</span>
+            <span class="payment-option-copy">
+              <strong>Cash on Delivery (COD)</strong>
+              <small>Pay when your order is delivered.</small>
+            </span>
+            <span class="payment-option-radio"></span>
+          </button>
+
+          <button type="button" class="payment-option" data-payment="online" aria-pressed="false">
+            <span class="payment-option-icon">▣</span>
+            <span class="payment-option-copy">
+              <strong>Online PAY</strong>
+              <small>Pay securely online for your order.</small>
+            </span>
+            <span class="payment-option-radio"></span>
+          </button>
+        </div>
+
+        <div class="payment-selected-message" id="paymentSelectedMessage" hidden></div>
+
+        <div class="place-order-wrap" id="placeOrderWrap" hidden>
+          <button type="button" class="place-order-button" id="placeOrderButton" disabled>PLACE</button>
+        </div>
+      </section>
+    </div>
+
+    <aside class="checkout-summary">
+      <button type="button" class="checkout-selected-address" id="checkoutSelectedAddress" hidden aria-label="Change delivery address">
+        <span class="checkout-selected-address-icon">⌖</span>
+        <span class="checkout-selected-address-copy">
+          <strong id="checkoutSelectedAddressLabel">Delivery address</strong>
+          <small id="checkoutSelectedAddressText"></small>
+        </span>
+        <span class="checkout-selected-address-arrow">›</span>
+      </button>
+      <h2>Your order</h2>
+      <div id="checkoutItems"></div>
+      <button type="button" class="checkout-add-more" id="checkoutAddMore">ADD MORE</button>
+      <div class="checkout-totals">
+        <div class="checkout-total-row"><span>Item total</span><strong id="checkoutItemTotal">₹0</strong></div>
+        <div class="checkout-total-row"><span>Delivery fee</span><strong>FREE</strong></div>
+        <div class="checkout-total-row"><span>GST & other charges</span><strong id="checkoutTax">₹0</strong></div>
+        <div class="checkout-total-row final"><span>TO PAY</span><strong id="checkoutPayable">₹0</strong></div>
+      </div>
+      <div class="checkout-note">Your selected delivery address is stored securely for your account and can be edited any time.</div>
+    </aside>
+  </main>
+
+  <div class="delivery-picker-modal" id="deliveryPickerModal" aria-hidden="true">
+    <div class="delivery-picker-sheet" role="dialog" aria-modal="true" aria-labelledby="deliveryPickerTitle">
+      <div class="delivery-picker-head">
+        <h2 id="deliveryPickerTitle" tabindex="-1">Choose a delivery address</h2>
+        <button type="button" class="delivery-picker-close" id="deliveryPickerClose" aria-label="Close">×</button>
+      </div>
+      <div class="delivery-picker-error" id="deliveryPickerError" aria-hidden="true">
+        <div class="delivery-picker-error-card" role="alertdialog" aria-modal="true" aria-labelledby="deliveryPickerErrorMessage">
+          <div class="delivery-picker-error-message" id="deliveryPickerErrorMessage">Kindly select your address</div>
+          <button type="button" class="delivery-picker-error-ok" id="deliveryPickerErrorOk">OK</button>
+        </div>
+      </div>
+      <div class="delivery-picker-body" id="deliveryPickerBody">
+        <div class="delivery-picker-loading">Loading your saved addresses…</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-success-modal" id="orderSuccessModal" aria-hidden="true">
+    <div class="order-success-box" role="dialog" aria-modal="true" aria-labelledby="orderSuccessTitle">
+      <div class="order-success-icon">✓</div>
+      <h2 id="orderSuccessTitle">Order placed successfully</h2>
+      <p>Your order has been placed successfully and is now visible in your Orders.</p>
+      <button type="button" class="order-success-ok" id="orderSuccessOk">OK</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/checkout.js"></script>
+  <script type="module" src="js/mobile-app.js?v=20260828-keyboard-nav-menu-2"></script>
+</body>
+</html>

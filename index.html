@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Chicken GRAY + SNACKS — fresh chicken and homemade snacks.">
+  <title>Chicken GRAY + SNACKS</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="css/location.css">
+  <link rel="stylesheet" href="css/guest-auth-modal.css?v=20260827-4">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="android-mobile-ui-fixes.css?v=20260827-menu-fix-1">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <a href="#home" class="brand">
+      <span class="brand-logo" id="brandLogo">CG</span>
+      <span>
+        <strong id="brandName">Chicken GRAY</strong>
+        <small>+ SNACKS</small>
+      </span>
+    </a>
+
+    <nav class="nav" id="desktopNav">
+      <a href="#home">Home</a>
+      <a href="#menu">Menu</a>
+      <a href="#specials">Specials</a>
+      <a href="#about">Why us</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="header-buttons">
+      <button class="cart-button" id="cartButton">Cart <span id="cartCount">0</span></button>
+      <a class="login-button" id="loginButton" href="login.html">Sign in</a>
+      <button class="mobile-menu-button" id="mobileMenuButton">☰</button>
+    </div>
+  </header>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#home">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#specials">Specials</a>
+    <a href="#about">Why us</a>
+    <a href="#contact">Contact</a>
+    <a class="mobile-signin-link" href="login.html">Sign in</a>
+  </div>
+
+  <main id="home">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-glow glow-one"></div>
+      <div class="hero-glow glow-two"></div>
+
+      <div class="hero-copy">
+        <div class="mini-badge">🔥 FRESHLY PREPARED</div>
+        <h1>Good food.<br><span>Great cravings.</span></h1>
+        <p>
+          Crispy chicken favourites and homemade snacks,
+          prepared fresh and packed with flavour.
+        </p>
+
+        <div class="hero-actions">
+          <a class="primary-btn" href="#menu">Explore menu <span>→</span></a>
+          <button class="outline-btn" id="heroCartButton">View cart</button>
+        </div>
+
+        <div class="hero-stats">
+          <div><strong>100%</strong><span>Freshly made</span></div>
+          <div><strong>25+</strong><span>Menu choices</span></div>
+          <div><strong>Fast</strong><span>Local delivery</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+
+        <div class="food-main">
+          <span>🍗</span>
+        </div>
+
+        <div class="floating-card floating-top">
+          <span class="floating-icon">⭐</span>
+          <div>
+            <strong>Customer favourite</strong>
+            <small>Chicken 65</small>
+          </div>
+        </div>
+
+        <div class="floating-card floating-bottom">
+          <span class="floating-icon">🥨</span>
+          <div>
+            <strong>Homemade snacks</strong>
+            <small>Fresh every day</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEARCH -->
+    <section class="search-panel">
+      <button class="location location-trigger" id="locationTrigger" type="button" aria-haspopup="dialog">
+        <span>📍</span>
+        <span class="location-text" id="locationText">Enter the Location</span>
+        <span class="location-chevron">⌄</span>
+      </button>
+      <div class="search-wrap">
+        <div class="search">
+          <span>⌕</span>
+          <input id="searchInput" type="search" placeholder="Search chicken, snacks, combos..." autocomplete="off">
+          <button id="searchButton" type="button">Search</button>
+        </div>
+        <div class="search-suggestions" id="searchSuggestions" hidden aria-label="Search suggestions"></div>
+        <div class="search-results" id="searchResults" hidden aria-live="polite" aria-label="Search results"></div>
+      </div>
+    </section>
+
+    <!-- CATEGORY -->
+    <!-- PRODUCTS / MENU -->
+    <section class="section products-section" id="menu">
+      <div class="section-title">
+        <div>
+          <span class="section-label">CUSTOMER PICKS</span>
+          <h2>Popular today</h2>
+        </div>
+      </div>
+
+      <div class="filter-bar" id="filterBar">
+        <button class="filter active" data-filter="all">All</button>
+        <button class="filter" data-filter="chicken">Chicken GRAY</button>
+        <button class="filter" data-filter="snacks">Snacks</button>
+        <button class="filter" data-filter="combos">Combos</button>
+      </div>
+
+      <div class="products" id="productGrid"></div>
+      <div class="empty" id="emptyState">No items found. Try a different search.</div>
+    </section>
+
+    <!-- SPECIAL -->
+    <section class="special" id="specials">
+      <div class="special-text">
+        <span class="section-label">WEEKEND SPECIAL</span>
+        <h2>The GRAY Box</h2>
+        <p>
+          Chicken 65 + homemade mixture + a crispy snack —
+          one box made for serious cravings.
+        </p>
+        <button class="primary-btn" id="specialButton">Order special →</button>
+      </div>
+      <div class="special-art">
+        <div class="special-circle">🍗</div>
+        <span class="special-chip chip-a">🔥 Hot</span>
+        <span class="special-chip chip-b">₹299</span>
+        <span class="special-chip chip-c">Best seller</span>
+      </div>
+    </section>
+
+    <!-- WHY US -->
+    <section class="section why-section" id="about">
+      <div class="section-title">
+        <div>
+          <span class="section-label">WHY CHOOSE US</span>
+          <h2>Made with care</h2>
+        </div>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-card"><span>01</span><b>Fresh ingredients</b><p>We focus on freshness from kitchen to box.</p></div>
+        <div class="why-card"><span>02</span><b>Homemade taste</b><p>Comforting flavours inspired by local favourites.</p></div>
+        <div class="why-card"><span>03</span><b>Easy ordering</b><p>Simple menu, quick cart and clean checkout flow.</p></div>
+        <div class="why-card"><span>04</span><b>Made for sharing</b><p>Individual snacks and family-friendly combo boxes.</p></div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+      <div class="footer-main">
+        <a href="#home" class="brand dark-brand">
+          <span class="brand-logo">CG</span>
+          <span><strong>Chicken GRAY</strong><small>+ SNACKS</small></span>
+        </a>
+        <p>Fresh chicken. Homemade snacks. Big flavour.</p>
+      </div>
+
+      <div class="footer-column">
+        <h4>Menu</h4>
+        <a href="#menu">Chicken GRAY</a>
+        <a href="#menu">Snacks</a>
+        <a href="#menu">Combo Boxes</a>
+      </div>
+
+      <div class="footer-column">
+        <h4>Help</h4>
+        <a href="#">Delivery</a>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+      </div>
+
+      <div class="footer-column">
+        <h4>Contact</h4>
+        <a href="tel:+910000000000">+91 00000 00000</a>
+        <a href="mailto:hello@example.com">hello@example.com</a>
+      </div>
+    </footer>
+
+    <div class="copyright">© 2026 Chicken GRAY + SNACKS</div>
+  </main>
+
+  <!-- STICKY CART SUMMARY -->
+  <div class="sticky-cart" id="stickyCart" hidden>
+    <div class="sticky-cart-bar">
+      <strong id="stickyCartCount">1 Item added</strong>
+      <button type="button" id="stickyCartView">View Cart <span>›</span></button>
+    </div>
+  </div>
+
+  <!-- DELIVERY LOCATION -->
+  <div class="location-overlay" id="locationOverlay" hidden></div>
+  <section class="location-modal" id="locationModal" role="dialog" aria-modal="true" aria-labelledby="locationModalTitle" hidden>
+    <div class="location-modal-head">
+      <div>
+        <span class="section-label">DELIVERY LOCATION</span>
+        <h2 id="locationModalTitle">Where should we deliver?</h2>
+      </div>
+      <button type="button" class="location-close" id="locationClose" aria-label="Close">×</button>
+    </div>
+
+    <div class="location-login-required" id="locationLoginRequired" hidden>
+      <div class="location-permission-icon">🔐</div>
+      <div>
+        <strong>Sign in to add a delivery location</strong>
+        <p>You must be logged in before entering, selecting, or saving delivery address details.</p>
+      </div>
+      <button type="button" class="primary-btn location-allow" id="locationLoginButton">Sign in / Log in</button>
+    </div>
+
+    <div class="location-permission" id="locationPermission">
+      <div class="location-permission-icon">⌖</div>
+      <div>
+        <strong>Use your current location</strong>
+        <p>Allow location access to find your delivery area faster. You can also enter the address manually.</p>
+      </div>
+      <button type="button" class="primary-btn location-allow" id="allowLocationButton">Allow location</button>
+      <button type="button" class="text-location-btn" id="manualLocationButton">Enter address manually</button>
+      <p class="location-blocked" id="locationBlocked" hidden></p>
+    </div>
+
+    <form class="address-form" id="addressForm" hidden>
+      <div class="address-map" id="locationMap">
+        <span class="map-caption" id="mapCaption">Choose your location</span>
+      </div>
+      <p class="map-help-text">📍 After your location is found, drag the blue pin to the exact delivery point or click anywhere on the map. Area / Street and Full address will update automatically. You can edit both fields below.</p>
+      <div class="address-grid">
+        <label><span>Address label</span>
+          <select id="addressLabel" class="address-label-select" aria-hidden="true" tabindex="-1">
+            <option value="Home">Home</option>
+            <option value="Work">Work</option>
+            <option value="Other">Other</option>
+          </select>
+          <div class="address-label-switch" role="group" aria-label="Address type">
+  <button type="button" class="address-label-option" data-label-value="Home" aria-pressed="true">
+    <span class="address-label-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false"><path d="M3.5 10.5 12 3.8l8.5 6.7"/><path d="M5.5 9.5v10h5v-5h3v5h5v-10"/><path d="M8 19.5h8"/></svg>
+    </span><span>Home</span>
+  </button>
+  <button type="button" class="address-label-option" data-label-value="Work" aria-pressed="false">
+    <span class="address-label-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="7.5" width="16" height="12" rx="2"/><path d="M9 7.5V5.5h6v2"/><path d="M4 12h16"/></svg>
+    </span><span>Work</span>
+  </button>
+  <button type="button" class="address-label-option" data-label-value="Other" aria-pressed="false">
+    <span class="address-label-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false"><path d="m4 19 3.2-8.4L20 4l-3.6 12.8L4 19Z"/><path d="m7.2 10.6 6.2 3.1"/><path d="m12.5 8.8 3.4 1.7"/></svg>
+    </span><span>Other</span>
+  </button>
+</div>
+        </label>
+        <label><span>Door / Flat No.</span><input id="addressDoor" placeholder="e.g. 12A"><small id="addressDoorError" hidden style="color:#a83a2c;font-size:11px;font-weight:800;line-height:1.3;">Enter door / flat number.</small></label>
+        <label><span>Area / Street</span><input id="addressArea" placeholder="e.g. Bellandur"><small id="addressAreaError" hidden style="color:#a83a2c;font-size:11px;font-weight:800;line-height:1.3;">Enter area / street.</small></label>
+        <label><span>Landmark</span><input id="addressLandmark" placeholder="e.g. Near main gate"></label>
+        <label>
+          <span>Mobile Number</span>
+          <input id="addressMobile" type="tel" inputmode="numeric" maxlength="10" autocomplete="tel" placeholder="Enter 10 digit mobile number">
+          <small id="addressMobileError" hidden style="color:#a83a2c;font-size:11px;font-weight:800;line-height:1.3;">Enter 10 digit number.</small>
+        </label>
+        <label id="receiverNameField" class="receiver-only-field" hidden aria-hidden="true" style="display:none !important;">
+          <span>Receiver name</span>
+          <input id="addressReceiverName" autocomplete="name" placeholder="Enter receiver name">
+          <small id="addressReceiverNameError" hidden style="color:#a83a2c;font-size:11px;font-weight:800;line-height:1.3;">Enter receiver name.</small>
+        </label>
+        <label id="receiverNumberField" class="receiver-only-field" hidden aria-hidden="true" style="display:none !important;">
+          <span>Receiver number</span>
+          <input id="addressReceiverNumber" type="tel" inputmode="numeric" maxlength="10" autocomplete="tel" placeholder="Enter 10 digit receiver number">
+          <small id="addressReceiverNumberError" hidden style="color:#a83a2c;font-size:11px;font-weight:800;line-height:1.3;">Enter 10 digit number.</small>
+        </label>
+        <label class="address-wide"><span>Full address</span><textarea id="addressFull" rows="2" placeholder="Enter your complete delivery address"></textarea><small id="addressFullError" hidden style="color:#a83a2c;font-size:11px;font-weight:800;line-height:1.3;">Enter full address.</small></label>
+      </div>
+      <div class="address-location-status" id="addressLocationStatus">Location not selected yet.</div>
+      <div class="address-form-actions">
+        <button type="button" class="outline-location-btn" id="backToLocationButton">Back</button>
+        <button type="submit" class="primary-btn" id="saveAddressButton">Save address</button>
+      </div>
+      <div class="location-message" id="locationMessage" aria-live="polite"></div>
+    </form>
+
+    <div class="saved-addresses-box" id="savedAddressesBox" hidden>
+      <div class="saved-addresses-heading">
+        <strong>Saved addresses</strong>
+        <button type="button" class="text-location-btn" id="addAnotherAddressButton">+ Add new</button>
+      </div>
+      <div id="savedAddressesList"></div>
+    </div>
+  </section>
+
+  <!-- GUEST SIGN-IN MODAL -->
+  <div class="guest-auth-modal" id="guestLoginModal" hidden aria-hidden="true">
+    <div class="guest-auth-backdrop" data-guest-auth-backdrop></div>
+    <section
+      class="guest-auth-card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="guestLoginTitle"
+      aria-describedby="guestLoginDescription"
+    >
+      <button
+        type="button"
+        class="guest-auth-skip"
+        id="guestLoginSkip"
+        aria-label="Skip sign in and continue to home page"
+      >Skip</button>
+      <div class="guest-auth-content">
+        <h2 id="guestLoginTitle">Sign in</h2>
+        <p id="guestLoginDescription">Use the username and password you created.</p>
+
+        <form class="guest-auth-form auth-form" id="guestLoginForm">
+          <div class="guest-auth-field">
+            <label for="guestUsername">Username</label>
+            <input id="guestUsername" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+          </div>
+
+          <div class="guest-auth-field">
+            <label for="guestPassword">Password</label>
+            <div class="guest-password-wrap password-wrap">
+              <input id="guestPassword" type="password" autocomplete="current-password" required>
+              <button type="button" class="guest-toggle-password toggle-password" data-toggle-password="guestPassword">Show</button>
+            </div>
+          </div>
+
+          <div class="guest-auth-link-row">
+            <a class="guest-auth-link auth-link" href="forgot-password.html">Forgot password?</a>
+            <a class="guest-auth-link auth-link" href="signup.html">Create New Account</a>
+          </div>
+
+          <button class="guest-auth-submit primary-btn full" type="submit">Sign in</button>
+          <div id="guestLoginMessage" class="guest-auth-message auth-message" role="status" aria-live="polite"></div>
+        </form>
+
+        <div class="guest-auth-footer">Chicken GRAY + SNACKS</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- AUTH REDIRECT FALLBACK -->
+  <noscript>
+    <div class="noscript-warning">Please enable JavaScript to use sign in and cart features.</div>
+  </noscript>
+
+  <script type="module" src="js/app.js?v=20260827-back-menu-keyboard-4"></script>
+  <script type="module" src="js/auth.js?v=20260827-5"></script>
+  <script type="module" src="js/guest-auth-modal.js?v=20260827-6"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script type="module" src="js/location.js"></script>
+
+
+  <script type="module" src="js/mobile-app.js?v=20260828-keyboard-nav-menu-2"></script>
+</body>
+</html>

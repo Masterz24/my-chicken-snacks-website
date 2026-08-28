@@ -1,0 +1,359 @@
+/* =========================================================
+   GUEST SIGN-IN MODAL
+   Homepage-only auth gate for signed-out customers.
+   IMPORTANT: this is a popup/modal on every viewport.
+   The existing Chicken GRAY + SNACKS theme is preserved.
+   ========================================================= */
+.guest-auth-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  overflow: hidden;
+}
+
+.guest-auth-modal[hidden] {
+  display: none !important;
+}
+
+/* Darkened page behind the login card, like the supplied reference. */
+.guest-auth-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(22, 19, 16, .42);
+  -webkit-backdrop-filter: blur(1.5px);
+  backdrop-filter: blur(1.5px);
+}
+
+/* Compact floating login card — never turns into a full-screen page. */
+.guest-auth-card {
+  position: relative;
+  z-index: 1;
+  width: min(540px, calc(100vw - 32px));
+  max-height: min(760px, calc(100dvh - 36px));
+  overflow: auto;
+  margin: 0;
+  border: 1px solid rgba(222, 213, 199, .95);
+  border-radius: 24px;
+  background: #fffaf2;
+  color: #171513;
+  box-shadow: 0 24px 70px rgba(25, 20, 14, .30);
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* Top-right Skip action, matching the supplied reference style. */
+.guest-auth-skip {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 3;
+  min-width: 52px;
+  min-height: 32px;
+  padding: 6px 13px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(188, 63, 22, .10);
+  color: #bc3f16;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.guest-auth-skip:hover {
+  background: rgba(188, 63, 22, .16);
+}
+
+.guest-auth-skip:active {
+  transform: translateY(1px);
+}
+
+.guest-auth-skip:focus-visible {
+  outline: 2px solid #f56600;
+  outline-offset: 2px;
+}
+
+.guest-auth-content {
+  padding: 31px 30px 25px;
+}
+
+.guest-auth-content h2 {
+  margin: 0 0 18px;
+  color: #171513;
+  font-size: clamp(37px, 7vw, 48px);
+  line-height: .98;
+  letter-spacing: -2px;
+  font-weight: 900;
+}
+
+.guest-auth-content > p {
+  margin: 0;
+  color: #6e655c;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.guest-auth-form {
+  display: grid;
+  gap: 0;
+  margin-top: 30px;
+}
+
+.guest-auth-field {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 21px;
+}
+
+.guest-auth-field label {
+  color: #171513;
+  font-size: 14px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+.guest-auth-field input {
+  width: 100%;
+  min-height: 62px;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  border: 1px solid #ddd4c8;
+  border-radius: 16px;
+  outline: none;
+  background: #fff;
+  color: #171513;
+  font: inherit;
+  font-size: 15px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.guest-auth-field input:focus {
+  border-color: #f56600;
+  box-shadow: 0 0 0 3px rgba(245, 102, 0, .10);
+}
+
+.guest-password-wrap {
+  position: relative;
+}
+
+.guest-password-wrap input {
+  padding-right: 70px;
+}
+
+.guest-toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  z-index: 2;
+  min-height: 34px;
+  transform: translateY(-50%);
+  padding: 5px 3px;
+  border: 0;
+  background: transparent;
+  color: #6e655c;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.guest-auth-link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 1px 0 19px;
+}
+
+.guest-auth-link {
+  color: #bc3f16;
+  font-size: 14px;
+  line-height: 1.3;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.guest-auth-link:hover,
+.guest-auth-link:focus-visible {
+  text-decoration: underline;
+}
+
+.guest-auth-submit {
+  width: 100%;
+  min-height: 62px;
+  margin: 0;
+  border: 0;
+  border-radius: 16px;
+  background: #f56600;
+  color: #171513;
+  font: inherit;
+  font-size: 19px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.guest-auth-submit:hover {
+  background: #e95e00;
+}
+
+.guest-auth-submit:active {
+  transform: translateY(1px);
+}
+
+.guest-auth-submit:disabled {
+  cursor: wait;
+  opacity: .75;
+}
+
+.guest-auth-message {
+  min-height: 20px;
+  margin-top: 9px;
+  color: #a83a2c;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.guest-auth-message.success {
+  color: #46703c;
+}
+
+.guest-auth-footer {
+  margin-top: 28px;
+  padding-bottom: 1px;
+  text-align: center;
+  color: #8c857a;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/*
+   Mobile keeps the same popup/card treatment as the reference image.
+   It is deliberately NOT converted into a full-screen login page.
+*/
+@media (max-width: 600px) {
+  .guest-auth-modal {
+    padding: 14px;
+  }
+
+  .guest-auth-backdrop {
+    background: rgba(22, 19, 16, .44);
+  }
+
+  .guest-auth-card {
+    width: min(540px, calc(100vw - 28px));
+    max-height: calc(100dvh - 28px);
+    border-radius: 22px;
+    box-shadow: 0 20px 55px rgba(25, 20, 14, .32);
+  }
+
+  .guest-auth-skip {
+    top: 16px;
+    right: 16px;
+    min-width: 50px;
+    min-height: 31px;
+    padding: 6px 12px;
+  }
+
+  .guest-auth-content {
+    padding: 27px 24px 23px;
+  }
+
+  .guest-auth-content h2 {
+    margin-bottom: 16px;
+    font-size: 40px;
+    letter-spacing: -1.9px;
+  }
+
+  .guest-auth-content > p {
+    font-size: 14px;
+  }
+
+  .guest-auth-form {
+    margin-top: 28px;
+  }
+
+  .guest-auth-field {
+    margin-bottom: 20px;
+  }
+
+  .guest-auth-field input {
+    min-height: 60px;
+    border-radius: 15px;
+  }
+
+  .guest-auth-link-row {
+    gap: 12px;
+    margin-bottom: 17px;
+  }
+
+  .guest-auth-link {
+    font-size: 13.5px;
+  }
+
+  .guest-auth-submit {
+    min-height: 60px;
+    border-radius: 15px;
+    font-size: 18px;
+  }
+
+  .guest-auth-footer {
+    margin-top: 25px;
+    font-size: 12.5px;
+  }
+}
+
+@media (max-width: 380px) {
+  .guest-auth-modal {
+    padding: 10px;
+  }
+
+  .guest-auth-card {
+    width: calc(100vw - 20px);
+    max-height: calc(100dvh - 20px);
+    border-radius: 20px;
+  }
+
+  .guest-auth-content {
+    padding: 24px 18px 20px;
+  }
+
+  .guest-auth-content h2 {
+    font-size: 36px;
+  }
+
+  .guest-auth-link-row {
+    gap: 8px;
+  }
+
+  .guest-auth-link {
+    font-size: 12.5px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .guest-auth-card {
+    animation: guestAuthEnter .18s ease-out;
+  }
+
+  @keyframes guestAuthEnter {
+    from { opacity: 0; transform: translateY(8px) scale(.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+}
+
+body.guest-auth-modal-open {
+  overflow: hidden;
+}

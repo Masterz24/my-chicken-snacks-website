@@ -1,0 +1,8 @@
+node_modules/
+functions/node_modules/
+.env
+functions/.env
+*.log
+.DS_Store
+.vscode/
+.wrangler/

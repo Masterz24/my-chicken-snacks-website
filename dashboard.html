@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Chicken GRAY account dashboard.">
+  <title>My Account — Chicken GRAY + SNACKS</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/auth.css?v=20260827-5">
+  <link rel="stylesheet" href="css/location.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="android-mobile-ui-fixes.css?v=20260827-menu-fix-1">
+</head>
+<body class="account-page">
+  <header class="account-header">
+    <div class="account-header-inner">
+      <a class="account-brand" href="index.html" aria-label="Chicken GRAY home">
+        <span class="account-brand-mark">CG</span>
+        <span class="account-brand-copy"><strong>Chicken GRAY</strong><small>+ SNACKS</small></span>
+      </a>
+
+      <nav class="account-top-nav" aria-label="Account navigation">
+        <a href="index.html">Home</a>
+        <button type="button" data-account-tab="order-status">Order status</button>
+        <button type="button" data-account-tab="order-history">Order history</button>
+        <a href="index.html#menu">Menu</a>
+      </nav>
+
+      <div class="account-header-actions">
+        <a class="account-cart-link" href="index.html#menu">🛒 <span>Cart</span><b id="accountCartCount">0</b></a>
+        <button class="account-profile-button" id="accountProfileButton" type="button" aria-expanded="false" aria-controls="accountDropdown">
+          <span class="profile-avatar" id="profileAvatar">CG</span>
+          <span class="profile-name" id="headerUsername">Account</span>
+          <span class="profile-chevron">⌄</span>
+        </button>
+        <button class="account-mobile-menu" id="accountMobileMenu" type="button" aria-label="Open account menu" aria-expanded="false">☰</button>
+      </div>
+
+      <div class="account-dropdown" id="accountDropdown">
+        <div class="dropdown-user">
+          <span class="profile-avatar large" id="dropdownAvatar">CG</span>
+          <div><strong id="dropdownUsername">Account</strong><small id="dropdownEmail">Loading…</small></div>
+        </div>
+        <button type="button" data-account-tab="profile">Profile</button>
+        <button type="button" data-account-tab="order-status">Order status</button>
+        <button type="button" data-account-tab="order-history">Order history</button>
+        <button type="button" data-account-tab="payments">Payments</button>
+        <button type="button" data-account-tab="addresses">Addresses</button>
+        <button type="button" data-account-tab="settings">Settings</button>
+        <button type="button" class="dropdown-logout" id="dropdownLogout">Log out</button>
+      </div>
+    </div>
+
+    <div class="account-mobile-nav" id="accountMobileNav">
+      <a href="index.html">Home</a>
+      <button type="button" data-account-tab="profile">Profile</button>
+      <button type="button" data-account-tab="order-status">Order status</button>
+      <button type="button" data-account-tab="order-history">Order history</button>
+      <button type="button" data-account-tab="payments">Payments</button>
+      <button type="button" data-account-tab="addresses">Addresses</button>
+      <button type="button" data-account-tab="settings">Settings</button>
+      <button type="button" id="mobileLogout">Log out</button>
+    </div>
+  </header>
+
+  <main class="account-main" id="dashboard">
+    <section class="account-hero">
+      <div class="account-hero-inner">
+        <div>
+          <span class="account-eyebrow">MY ACCOUNT</span>
+          <h1 id="heroUsername">Welcome back</h1>
+          <p id="heroEmail">Your Chicken GRAY account is active.</p>
+        </div>
+        <button class="hero-edit-button" type="button" data-account-tab="profile">EDIT PROFILE</button>
+      </div>
+    </section>
+
+    <section class="account-layout">
+      <aside class="account-sidebar" aria-label="Account sections">
+        <button class="account-side-item active" type="button" data-account-tab="order-status"><span>◷</span>Order status</button>
+        <button class="account-side-item" type="button" data-account-tab="order-history"><span>▣</span>Order history</button>
+        <button class="account-side-item" type="button" data-account-tab="payments"><span>▤</span>Payments</button>
+        <button class="account-side-item" type="button" data-account-tab="addresses"><span>●</span>Addresses</button>
+        <button class="account-side-item" type="button" data-account-tab="settings"><span>⚙</span>Settings</button>
+      </aside>
+
+      <section class="account-content">
+        <div class="account-panel" data-panel="order-status">
+          <div class="panel-heading">
+            <div><span class="panel-kicker">LIVE TRACKING</span><h2>Order status</h2></div>
+            <a class="panel-link" href="index.html#menu">Order something →</a>
+          </div>
+          <div id="activeOrdersList" class="tracking-orders-list"></div>
+        </div>
+
+        <div class="account-panel hidden" data-panel="order-history">
+          <div class="panel-heading">
+            <div><span class="panel-kicker">YOUR ACTIVITY</span><h2>Order history</h2></div>
+            <a class="panel-link" href="index.html#menu">Order something →</a>
+          </div>
+          <div id="ordersList" class="orders-list"></div>
+        </div>
+
+        <div class="account-panel hidden" data-panel="profile">
+          <div class="panel-heading"><div><span class="panel-kicker">PROFILE</span><h2>Your details</h2></div></div>
+          <div class="detail-grid">
+            <div class="detail-card">
+              <div class="detail-card-head">
+                <span>Username</span>
+                <button type="button" class="detail-edit-button" data-edit-profile="editUsername">Edit</button>
+              </div>
+              <strong id="accountUsername">Loading…</strong>
+            </div>
+
+            <div class="detail-card">
+              <div class="detail-card-head">
+                <span>Email</span>
+                <button type="button" class="detail-edit-button" data-edit-profile="editEmail">Edit</button>
+              </div>
+              <strong id="accountEmail">Loading…</strong>
+            </div>
+
+            <div class="detail-card">
+              <div class="detail-card-head">
+                <span>Mobile Number</span>
+                <button type="button" class="detail-edit-button" data-edit-profile="editMobile">Edit</button>
+              </div>
+              <strong id="accountMobile">Loading…</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="account-panel hidden" data-panel="payments">
+          <div class="panel-heading"><div><span class="panel-kicker">PAYMENT METHODS</span><h2>Payments</h2></div></div>
+          <div class="empty-account-state"><div class="empty-icon">▤</div><h3>No payment methods</h3><p>Your payment methods will appear here after a payment provider is connected.</p></div>
+        </div>
+
+        <div class="account-panel hidden" data-panel="addresses">
+          <div class="panel-heading">
+            <div><span class="panel-kicker">DELIVERY</span><h2>Manage Addresses</h2></div>
+            <a class="panel-link address-add-link" href="address.html">+ Add new address</a>
+          </div>
+          <div class="dashboard-addresses" id="dashboardAddresses">
+            <div class="empty-account-state"><div class="empty-icon">●</div><h3>No saved addresses</h3><p>Add a delivery address to make checkout faster.</p></div>
+          </div>
+        </div>
+
+        <div class="account-panel hidden" data-panel="settings">
+          <div class="panel-heading"><div><span class="panel-kicker">ACCOUNT CONTROL</span><h2>Settings</h2></div></div>
+          <div class="settings-list">
+            <div class="settings-account-row">
+              <div class="settings-account-copy">
+                <strong>Account email</strong>
+                <small id="settingsEmail">Loading…</small>
+              </div>
+              <span class="settings-status" aria-label="Account email verified">✓</span>
+            </div>
+          </div>
+          <div class="settings-logout-wrap">
+            <button class="danger-action" id="logoutButton" type="button">Log out</button>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <div class="account-footer"><a href="index.html">← Continue shopping</a><span>© 2026 Chicken GRAY + SNACKS</span></div>
+
+    <div class="tracking-modal" id="trackingModal" aria-hidden="true">
+      <div class="tracking-modal-box" role="dialog" aria-modal="true" aria-labelledby="trackingModalTitle">
+        <button type="button" class="tracking-modal-close" id="closeTrackingModal" aria-label="Close">×</button>
+        <span class="panel-kicker">LIVE TRACKING</span>
+        <h2 id="trackingModalTitle">Tracking order</h2>
+        <div id="trackingModalContent"></div>
+      </div>
+    </div>
+
+    <div class="help-modal" id="orderHelpModal" aria-hidden="true">
+      <div class="help-modal-box" role="dialog" aria-modal="true" aria-labelledby="orderHelpTitle">
+        <button type="button" class="help-modal-close" id="closeOrderHelp" aria-label="Close">×</button>
+        <span class="panel-kicker">ORDER HELP</span>
+        <h2 id="orderHelpTitle">Need help with your order?</h2>
+        <p>Contact us for order support.</p>
+        <div class="help-contact">Contact no : <strong>1234567890</strong></div>
+        <button type="button" class="help-modal-ok" id="orderHelpOk">OK</button>
+      </div>
+    </div>
+
+    <div class="profile-edit-modal" id="profileEditModal" aria-hidden="true">
+      <div class="profile-edit-box" role="dialog" aria-modal="true" aria-labelledby="profileEditTitle">
+        <button type="button" class="profile-edit-close" id="closeProfileEdit" aria-label="Close">×</button>
+        <span class="panel-kicker">PROFILE</span>
+        <h2 id="profileEditTitle">Edit your details</h2>
+        <p class="profile-edit-help">Update your username, email or mobile number.</p>
+
+        <form class="profile-edit-form" id="profileEditForm" novalidate>
+          <div class="auth-field">
+            <label for="editUsername">Username</label>
+            <input id="editUsername" autocomplete="username" maxlength="20" aria-required="true">
+            <div id="editUsernameError" class="field-error" aria-live="polite"></div>
+          </div>
+
+          <div class="auth-field">
+            <label for="editEmail">Email ID</label>
+            <input id="editEmail" type="email" autocomplete="email" aria-required="true">
+            <div id="editEmailError" class="field-error" aria-live="polite"></div>
+          </div>
+
+          <div class="auth-field">
+            <label for="editMobile">Mobile Number</label>
+            <input id="editMobile" type="tel" inputmode="numeric" autocomplete="tel" maxlength="10" aria-required="true">
+            <div id="editMobileError" class="field-error" aria-live="polite"></div>
+          </div>
+
+          <div class="auth-field">
+            <label for="editCurrentPassword">Current Password <small>(only needed when changing email)</small></label>
+            <input id="editCurrentPassword" type="password" autocomplete="current-password">
+            <div id="editCurrentPasswordError" class="field-error" aria-live="polite"></div>
+          </div>
+
+          <div class="profile-edit-actions">
+            <button type="button" class="outline-location-btn" id="cancelProfileEdit">Cancel</button>
+            <button type="submit" class="primary-btn">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/location.js"></script>
+  <script type="module" src="js/dashboard-addresses.js"></script>
+  <script type="module" src="js/order-status.js"></script>
+  <script type="module" src="js/mobile-app.js?v=20260828-keyboard-nav-menu-2"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in — Chicken GRAY + SNACKS</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/auth.css?v=20260827-1">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="android-mobile-ui-fixes.css?v=20260827-menu-fix-1">
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+  <section class="auth-brand-panel">
+  <div class="brand-logo">CG</div>
+  <h1>Good food.<br><span>Great account.</span></h1>
+  <p>Sign in to manage your Chicken GRAY + SNACKS account, keep your profile ready, and continue ordering.</p>
+  <ul class="auth-points">
+    <li>Fresh chicken & homemade snacks</li>
+    <li>Simple, secure account access</li>
+    <li>Your cart stays on this browser</li>
+  </ul>
+</section>
+  <section class="auth-card">
+    <a class="auth-back" href="index.html">← Back to website</a>
+    <span class="section-label">WELCOME BACK</span>
+    <h2>Sign in</h2>
+    <p>Use the username and password you created.</p>
+    <form class="auth-form" id="loginForm">
+      <div><label for="username">Username</label><input id="username" autocomplete="username" required></div>
+      <div><label for="password">Password</label><div class="password-wrap"><input id="password" type="password" autocomplete="current-password" required><button type="button" class="toggle-password" data-toggle-password="password">Show</button></div></div>
+      <div class="auth-link-row"><a class="auth-link" href="forgot-password.html">Forgot password?</a><a class="auth-link" href="signup.html">Create New Account</a></div>
+      <button class="primary-btn full" type="submit">Sign in</button>
+      <div id="loginMessage" class="auth-message"></div>
+    </form>
+    <div class="auth-footer">Chicken GRAY + SNACKS</div>
+  </section>
+</main>
+  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/mobile-app.js?v=20260828-keyboard-nav-menu-2"></script>
+</body>
+</html>

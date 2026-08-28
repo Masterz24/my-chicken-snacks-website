@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New sign up — Chicken GRAY + SNACKS</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/auth.css?v=20260828-signup-scroll-2">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="android-mobile-ui-fixes.css?v=20260828-signup-scroll-2">
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+    <section class="auth-brand-panel">
+      <div class="brand-logo">CG</div>
+      <h1>Good food.<br><span>Great account.</span></h1>
+      <p>Sign in to manage your Chicken GRAY + SNACKS account, keep your profile ready, and continue ordering.</p>
+      <ul class="auth-points">
+        <li>Fresh chicken & homemade snacks</li>
+        <li>Simple, secure account access</li>
+        <li>Your cart stays on this browser</li>
+      </ul>
+    </section>
+
+    <section class="auth-card">
+      <a class="auth-back" href="login.html">← Back to Sign in</a>
+      <span class="section-label">CREATE ACCOUNT</span>
+      <h2>New sign up</h2>
+      <p>Create your account with a unique username, email address and mobile number.</p>
+
+      <form class="auth-form" id="signupForm" novalidate>
+        <div class="auth-field">
+          <label for="username">Username</label>
+          <input id="username" autocomplete="username" minlength="3" maxlength="20" aria-required="true">
+          <div id="usernameError" class="field-error" aria-live="polite"></div>
+        </div>
+
+        <div class="auth-field">
+          <label for="email">Email ID</label>
+          <input id="email" type="email" autocomplete="email" aria-required="true">
+          <div id="emailError" class="field-error" aria-live="polite"></div>
+        </div>
+
+        <div class="auth-field">
+          <label for="mobile">Mobile Number</label>
+          <input id="mobile" type="tel" inputmode="numeric" autocomplete="tel" maxlength="10" placeholder="Enter 10 digit mobile number" aria-required="true">
+          <div id="mobileError" class="field-error" aria-live="polite"></div>
+        </div>
+
+        <div class="auth-field">
+          <label for="password">Password</label>
+          <div class="password-wrap">
+            <input id="password" type="password" autocomplete="new-password" aria-required="true">
+            <button type="button" class="toggle-password" data-toggle-password="password">Show</button>
+          </div>
+          <div id="passwordError" class="field-error" aria-live="polite"></div>
+        </div>
+
+        <div class="auth-field">
+          <label for="confirmPassword">Re-enter Password</label>
+          <div class="password-wrap">
+            <input id="confirmPassword" type="password" autocomplete="new-password" aria-required="true">
+            <button type="button" class="toggle-password" data-toggle-password="confirmPassword">Show</button>
+          </div>
+          <div id="confirmPasswordError" class="field-error" aria-live="polite"></div>
+        </div>
+
+        <button class="primary-btn full" type="submit">Create account</button>
+        <div id="signupMessage" class="auth-message" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="js/auth.js?v=20260828-signup-scroll-2"></script>
+  <script type="module" src="js/mobile-app.js?v=20260828-keyboard-nav-menu-2"></script>
+</body>
+</html>

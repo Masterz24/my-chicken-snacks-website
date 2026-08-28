@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#fffaf2">
+  <title>Password reset — Chicken GRAY + SNACKS</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="android-mobile-ui-fixes.css?v=20260827-menu-fix-1">
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+    <section class="auth-brand-panel">
+      <div class="brand-logo">CG</div>
+      <h1>Good food.<br><span>Great account.</span></h1>
+      <p>Use the secure password reset email from Firebase to choose a new password.</p>
+      <ul class="auth-points">
+        <li>Firebase secure password recovery</li>
+        <li>No Cloud Functions required</li>
+        <li>Works on the free Firebase plan</li>
+      </ul>
+    </section>
+    <section class="auth-card">
+      <a class="auth-back" href="forgot-password.html">← Back to account recovery</a>
+      <span class="section-label">PASSWORD RECOVERY</span>
+      <h2>Check your email</h2>
+      <p>Firebase sends a secure password reset link to your registered email. Open that link to choose your new password.</p>
+      <div class="auth-message success" style="display:block;margin-top:20px;">
+        Check your Inbox, Spam/Junk and Promotions folder.
+      </div>
+      <a class="primary-btn full" href="forgot-password.html" style="display:block;text-align:center;margin-top:16px;">Send another reset email</a>
+    </section>
+  </main>
+  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/mobile-app.js?v=20260828-keyboard-nav-menu-2"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function isHotelOwner() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/hotelOwners/$(request.auth.uid));
+    }
+
+    function isHotelOwnerForRestaurant(restaurantId) {
+      return isHotelOwner()
+        && get(/databases/$(database)/documents/hotelOwners/$(request.auth.uid)).data.restaurantId == restaurantId;
+    }
+
+    function statusUpdateOnly() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+        'status',
+        'accepted',
+        'delivered',
+        'statusUpdatedAt',
+        'updatedAt',
+        'acceptedAt',
+        'preparingAt',
+        'outForDeliveryAt',
+        'deliveredAt'
+      ]);
+    }
+
+    // CUSTOMER PROFILE — customer app only
+    match /users/{userId} {
+      allow read, create, update, delete: if isSelf(userId);
+    }
+
+    // USERNAME -> EMAIL / UID MAPPING — customer app only
+    match /usernames/{username} {
+      allow read: if true;
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if signedIn() && resource.data.uid == request.auth.uid;
+    }
+
+    // CUSTOMER ADDRESSES — customer app only
+    match /users/{userId}/addresses/{addressId} {
+      allow read, create, update, delete: if isSelf(userId);
+    }
+
+    // CUSTOMER CART — customer app only
+    match /users/{userId}/cart/{cartId} {
+      allow read, create, update, delete: if isSelf(userId);
+    }
+
+    // CUSTOMER ORDER COPY
+    match /users/{userId}/orders/{orderId} {
+      // Customer can read/create/delete its own order.
+      allow read, create, delete: if isSelf(userId);
+
+      // Server can delete the matching customer-side order when the
+      // restaurant-side order belongs to the same customer. This keeps
+      // Server Delete synchronized with the User Order Status page.
+      allow delete: if
+        isHotelOwnerForRestaurant('chicken-gray-snacks')
+        && exists(/databases/$(database)/documents/restaurants/chicken-gray-snacks/orders/$(orderId))
+        && get(/databases/$(database)/documents/restaurants/chicken-gray-snacks/orders/$(orderId)).data.customerUid == userId;
+
+      // Customer may update its own order.
+      // Owner may update workflow fields only on the matching customer copy.
+      allow update: if isSelf(userId)
+        || (
+          isHotelOwnerForRestaurant('chicken-gray-snacks')
+          && request.resource.data.get('customerUid', '') == resource.data.get('customerUid', '')
+          && request.resource.data.get('customerUid', '') == userId
+          && statusUpdateOnly()
+        );
+    }
+
+    // HOTEL OWNER PROFILE — server app only
+    match /hotelOwners/{ownerId} {
+      allow read, create, update, delete: if isSelf(ownerId);
+    }
+
+    // SHARED RESTAURANT ORDER FEED
+    match /restaurants/{restaurantId}/orders/{orderId} {
+      // Customer creates the order.
+      allow create: if signedIn()
+        && restaurantId == 'chicken-gray-snacks'
+        && request.resource.data.restaurantId == restaurantId
+        && request.resource.data.customerUid == request.auth.uid;
+
+      // Owner reads all restaurant orders. Customer reads only its own order.
+      allow read: if isHotelOwnerForRestaurant(restaurantId)
+        || (
+          signedIn()
+          && resource.data.customerUid == request.auth.uid
+        );
+
+      // Owner can change workflow/status fields only.
+      // Customer UID and address/location cannot be changed here.
+      allow update: if isHotelOwnerForRestaurant(restaurantId)
+        && request.resource.data.get('customerUid', '') == resource.data.get('customerUid', '')
+        && statusUpdateOnly();
+
+      allow delete: if isHotelOwnerForRestaurant(restaurantId);
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

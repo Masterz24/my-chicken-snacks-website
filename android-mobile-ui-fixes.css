@@ -1,0 +1,251 @@
+/* Android mobile UI fixes — final source-level safety overrides */
+
+@media (max-width: 1024px) {
+  body.auth-page,
+  body.auth-page .auth-shell,
+  body.auth-page .auth-card {
+    background: #fffaf2 !important;
+    background-image: none !important;
+    box-shadow: none !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .place-order-wrap {
+    position: static !important;
+    inset: auto !important;
+    margin: 16px 0 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    transform: none !important;
+    z-index: auto !important;
+  }
+
+  .place-order-button {
+    position: static !important;
+    width: 100% !important;
+    box-shadow: none !important;
+  }
+
+  .checkout-payment-step {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 16px !important;
+  }
+}
+
+
+/* ============================================================
+   FINAL ANDROID AUTH + CHECKOUT OVERRIDES
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  body.auth-page,
+  body.auth-page .auth-shell,
+  body.auth-page .auth-card,
+  body.auth-page .auth-brand-panel {
+    background: #fffaf2 !important;
+    background-image: none !important;
+  }
+
+  body.auth-page .auth-brand-panel {
+    display: none !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .checkout-main > div,
+  .checkout-main > div .checkout-payment-step,
+  #paymentStep {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex: 0 0 auto !important;
+  }
+
+  #paymentStep {
+    margin: 0 !important;
+    padding: 16px !important;
+    overflow: visible !important;
+  }
+
+  #placeOrderWrap {
+    margin: 20px 0 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  #placeOrderButton {
+    margin: 0 !important;
+    min-height: 54px !important;
+    height: auto !important;
+  }
+}
+
+
+/* ============================================================
+   ANDROID MENU + KEYBOARD SAFETY
+   ============================================================ */
+
+@media (max-width: 720px) {
+  /*
+   * Keyboard closed:
+   * MENU sits above the Home / Orders / Account / Cart bar.
+   */
+  .mobile-items-fab {
+    position: fixed !important;
+    bottom: calc(
+      var(--mobile-bottom-nav-height)
+      + env(safe-area-inset-bottom, 0px)
+      + 14px
+    ) !important;
+    z-index: 1700 !important;
+  }
+
+  /*
+   * If the sticky View Cart bar exists, lift MENU further.
+   */
+  .mobile-items-fab.mobile-items-fab--with-cart {
+    bottom: calc(
+      var(--mobile-bottom-nav-height)
+      + env(safe-area-inset-bottom, 0px)
+      + 88px
+    ) !important;
+    z-index: 1700 !important;
+  }
+
+  /*
+   * Keyboard open:
+   * Bottom navigation is hidden by the existing keyboard logic,
+   * so MENU can sit near the bottom safely.
+   */
+  body.mobile-keyboard-open .mobile-items-fab {
+    position: fixed !important;
+    bottom: max(
+      14px,
+      env(safe-area-inset-bottom, 0px) + 14px
+    ) !important;
+    z-index: 1700 !important;
+  }
+
+  body.mobile-keyboard-open
+  .mobile-items-fab.mobile-items-fab--with-cart {
+    bottom: max(
+      88px,
+      env(safe-area-inset-bottom, 0px) + 88px
+    ) !important;
+    z-index: 1700 !important;
+  }
+
+  /*
+   * Menu sheet/backdrop remain above the MENU button.
+   */
+  body.mobile-items-open .mobile-items-sheet {
+    max-height: min(70dvh, 560px) !important;
+    overflow-y: auto !important;
+  }
+
+  .mobile-items-backdrop {
+    z-index: 1750 !important;
+  }
+
+  .mobile-items-sheet {
+    z-index: 1760 !important;
+  }
+
+  /*
+   * Explicitly keep the four-tab homepage navigation below MENU.
+   */
+  .mobile-app-bottom-nav {
+    z-index: 1600 !important;
+  }
+
+  /*
+   * Keyboard open: completely hide bottom navigation.
+   */
+  body.mobile-keyboard-open .mobile-app-bottom-nav {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+
+/* ============================================================
+   SIGN-UP KEYBOARD COMFORT + MOBILE FIELD VISIBILITY
+   ============================================================ */
+@media (max-width: 720px) {
+  body.auth-page {
+    min-height: 100dvh !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y !important;
+  }
+
+  /* Make the signup card itself a reliable Android touch-scroll viewport. */
+  body.auth-page .auth-card {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+    overscroll-behavior-y: contain !important;
+    scroll-padding-top: 32px !important;
+    scroll-padding-bottom: 300px !important;
+  }
+
+  body.auth-page .auth-card {
+    min-height: 100dvh !important;
+    padding-bottom: 48px !important;
+  }
+
+  body.auth-page .auth-form {
+    padding-bottom: 300px !important;
+  }
+
+  body.auth-page .auth-field {
+    scroll-margin-top: 32px !important;
+    scroll-margin-bottom: 280px !important;
+  }
+
+  body.auth-page .auth-form input,
+  body.auth-page .password-wrap input,
+  body.auth-page .auth-form select,
+  body.auth-page .auth-form textarea {
+    scroll-margin-top: 32px !important;
+    scroll-margin-bottom: 280px !important;
+    min-height: 50px !important;
+    font-size: 16px !important;
+  }
+
+  body.auth-keyboard-open.auth-page .auth-card {
+    padding-bottom: 260px !important;
+  }
+
+  body.auth-keyboard-open.auth-page .auth-form {
+    padding-bottom: 120px !important;
+  }
+}
+
+
+/* ============================================================
+   ANDROID KEYBOARD: HIDE BOTTOM NAV + FLOATING MENU
+   ============================================================ */
+@media (max-width: 720px) {
+  /* Primary state: mobile-app.js adds this class as soon as an editable
+     field receives focus and while Android's soft keyboard is visible. */
+  body.mobile-keyboard-open .mobile-app-bottom-nav,
+  body.mobile-keyboard-open .mobile-items-fab {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* Do not use :focus here. Android can dismiss the soft keyboard while the
+     input remains focused; mobile-app.js/native IME state will remove this
+     class as soon as the keyboard actually closes. */
+}
