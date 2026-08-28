@@ -33,17 +33,47 @@ class MainActivity : AppCompatActivity() {
         // important because Android may close the keyboard with Back/edge
         // swipe while the focused input stays focused. In that case a JS
         // focus/blur check alone cannot reliably restore the bottom nav.
-        ViewCompat.setOnApplyWindowInsetsListener(webView) { view, insets ->
-            val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
-            view.post {
+        fun reportKeyboardVisible(visible: Boolean) {
+            webView.post {
                 webView.evaluateJavascript(
                     "window.__setNativeKeyboardVisible && window.__setNativeKeyboardVisible(" +
-                        imeVisible.toString() + ");",
+                        visible.toString() + ");",
                     null
                 )
             }
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(webView) { _, insets ->
+            reportKeyboardVisible(insets.isVisible(WindowInsetsCompat.Type.ime()))
             insets
         }
+
+        // Also observe IME animation progress. Android edge-swipe Back can
+        // dismiss the keyboard through an animated WindowInsets transition,
+        // and some WebView/Android combinations do not issue a second static
+        // insets dispatch at the exact moment the animation reaches zero.
+        // Reporting on every animation frame makes the webpage restore its
+        // bottom navigation + MENU on the SAME gesture that closes the IME.
+        ViewCompat.setWindowInsetsAnimationCallback(
+            webView,
+            object : androidx.core.view.WindowInsetsAnimationCompat.Callback(
+                androidx.core.view.WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE
+            ) {
+                override fun onProgress(
+                    insets: WindowInsetsCompat,
+                    runningAnimations: MutableList<androidx.core.view.WindowInsetsAnimationCompat>
+                ): WindowInsetsCompat {
+                    reportKeyboardVisible(insets.isVisible(WindowInsetsCompat.Type.ime()))
+                    return insets
+                }
+
+                override fun onEnd(animation: androidx.core.view.WindowInsetsAnimationCompat) {
+                    reportKeyboardVisible(
+                        ViewCompat.getRootWindowInsets(webView)?.isVisible(WindowInsetsCompat.Type.ime()) == true
+                    )
+                }
+            }
+        )
         ViewCompat.requestApplyInsets(webView)
 
         // Keep Android Back / edge-swipe inside the customer WebView.

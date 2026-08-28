@@ -1,4 +1,4 @@
-const CACHE_NAME = 'chicken-gray-customer-v23';
+const CACHE_NAME = 'chicken-gray-customer-v24';
 const APP_SHELL = [
   './',
   './index.html',
@@ -12,7 +12,7 @@ const APP_SHELL = [
   './css/auth.css',
   './css/location.css',
   './css/checkout.css',
-  './js/mobile-app.js?v=20260828-keyboard-nav-menu-2',
+  './js/mobile-app.js?v=20260828-keyboard-nav-menu-3',
   './js/app.js?v=20260827-back-menu-keyboard-4',
   './js/auth.js?v=20260828-auth-mobile-fix-1',
   './js/firebase-config.js',

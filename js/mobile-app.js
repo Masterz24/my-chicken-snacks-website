@@ -299,7 +299,7 @@ import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.17.0/f
   function registerServiceWorker() {
     if (!('serviceWorker' in navigator)) return;
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js?v=20260828-keyboard-nav-menu-2', { scope: './' }).catch(error => {
+      navigator.serviceWorker.register('./sw.js?v=20260828-keyboard-nav-menu-3', { scope: './' }).catch(error => {
         console.warn('Customer app service worker registration failed:', error);
       });
     });
@@ -583,10 +583,20 @@ import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.17.0/f
       const gap = getKeyboardGap();
       const keyboardByViewport = gap > 100;
 
-      // Native Android is authoritative when the app bridge is available.
-      // Otherwise use the visualViewport/height signal.
-      const keyboardOpen = nativeKeyboardState === true ||
-        (nativeKeyboardState !== false && keyboardByViewport);
+      // IMPORTANT: Android can dismiss the IME with the system Back button or
+      // edge-swipe while the input remains focused. In some WebViews the
+      // native insets callback arrives one frame later (or is not dispatched
+      // again), so a previously reported `true` must NEVER keep the navigation
+      // hidden after the viewport has already returned to its full height.
+      // The viewport is the final visual truth for the restore transition.
+      if (!keyboardByViewport && nativeKeyboardState === true) {
+        nativeKeyboardState = false;
+      }
+
+      // Native Android is used to hide immediately, while the viewport signal
+      // is allowed to clear the state immediately when Back/gesture closes the
+      // keyboard. This avoids requiring a second Back/gesture.
+      const keyboardOpen = keyboardByViewport || nativeKeyboardState === true;
 
       setHidden(Boolean(keyboardOpen));
 
